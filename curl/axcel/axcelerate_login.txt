@@ -1,0 +1,20 @@
+Infusionsoft:
+
+APP Name:kq272
+API Key: b85799b515301febee1c71232750a8ed
+
+user:khuram@apidevs.com
+pwd:KHuram@@666777888
+
+Ax login: 
+https://admin.axcelerate.com.au/management
+username - Events
+password - Woodfire15 
+
+
+API
+https://admin.axcelerate.com.au/apidocs/home/relaxer
+API Token 3CC99231-4EFC-46E9-8C5D03D17E86C48B
+Web service token 1416E478-A8F4-48AA-A14CCC150ACA01B3
+
+Polkmn-manjum2

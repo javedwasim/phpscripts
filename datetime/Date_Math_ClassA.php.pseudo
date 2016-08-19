@@ -1,0 +1,1865 @@
+Note: #.... represents the end of an 'if' statement
+      # <--- represents the end of a loop
+
+/*	Date_Math_ClassA.php
+
+ 	This class has 67 date related functions. Dates can be outside the Linux date() range of 1970- 2039.
+	Date range for this class is from the year 0032 A.D. to 9999 A.D.
+
+	USE:
+	require_once <path / Date_Math_ClassA.php>;
+	$dt = new date_math_class;
+
+	Documentation and examples are found in files
+		Date_Math_Class_TestA.php and
+		Date_Math_ClassA.php.pseudo.
+
+   	Copyright (C) 2014 Software Installation Services, Inc.
+	Author: Bob Wedwick, Phoenix, AZ 602-449-8552 bob at wedwick dot com.
+
+	This program is free software: you can redistribute it or modify it under the terms
+	of the GNU General Public License as published by the Free Software Foundation,
+	either version 3 of the License or any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+	GNU General Public License for more details.
+
+	See http://www.gnu.org/licenses/licenses.en.html for a copy of the GNU General Public License.
+
+	This class operates by default on dates in string y-m-d format (y= year, m= month, d=day) as used in mySql;
+		however you may opt for input and output formats to be different,
+		and you can change the default output date format.
+
+	Input dates as function parameters may be formatted as strings:
+		y-m-d, y/m/d, y.m.d, m-d-y, m/d/y, m.d.y
+		where 'y' is 4 digits (leading zeros for years before 1000), 'm' and 'd' may be 1 or 2 digits.
+
+		Example: AddDays(2, '2013-04-15', 'y/m/d') means 2 days are added to April 15, 2014 and output
+		is formatted as y/m/d.
+
+	Also supported is ymd format as a string or integer for input which must be
+		 exactly 8 digits: 4-digit year and 2-digit month and 2-digit day.
+
+	Output date formats supported include those above as well as d-m-y by including an optional string parameter
+		in the function call. Also included are dmy, mdy and ymd with exactly 8 digits. Examples: 'm/d/y' 'ymd'
+		Note the 'd-m-y' format is not supported in the input date formats.
+
+		Null or blank output date formats revert to the default format as do any other formats that are
+			not recognized. Thus null, blank, or unrecognized formats do not generate errors.
+
+		Formatting strings are not case sensitive.
+
+	Input and output formats do not have to be the same. Thus functions can be
+		used to convert date formats from one to another.
+
+	For functions expecting an integer value as an input parameter, it may be
+		either an integer or string with or without + or - signs that evaluates to an integer.
+
+	When the public variable $useTime = false (the default),
+		time blocks are not considered for calculations and are removed from the output.
+
+	When the public variable $useTime = true,
+		The input date string may have an optional time component which is preserved and returned.
+		Time blocks are used in many date comparisons where time may make a difference.
+		Any dates submitted without a valid time block are set to 00:00 (midnight).
+		Null and blank time blocks are set to the current Linux local time.
+
+		Date comparisons using time blocks operate on 24 hours (86400 seconds) to make one day.
+		Thus 2012-07-08 09:00:00 versus 2012-07-09 08:59:59 is still the same day
+		likewise 2012-07-08 09:00 versus 2012-07-07 09:01.
+		When time blocks are not used, these entries result in different days.
+
+	Public variables for months, days of the week and 1st day of the weekmake it easy to change languages.
+
+	You can change the abbreviations for month and day of the week in public variables.
+
+	When the public variable $exceptions = true, an error throws an exception instead of returning
+		to the calling script with 'false' result.
+		Otherwise functions return a boolean false (result === false) whenever invalid input is passed
+		and should be explicitly tested by using ===.
+		Some functions may return zero which is different from the boolean false.
+
+	Null and blank dates are valid for input in selected functions where replacing them with the
+		current date and time makes sense.
+
+	When internal date calculations result in a non-existent date, such as April 31, the result
+		is reduced to the last valid day of the month.
+
+	Refer to the PHP script Date_Math_Class_Test.php for examples of how these functions
+		can be used. If the test script is run via the console, the results of various functions are
+		echoed to the console.
+
+	This class was written such that the logical flow of each function is available in
+		pseudo code form in a text file Date_Math_Class.php.pseudo.
+
+	Naming convention: all functions begin with a capital letter;
+		all variables begin with $ and lower case first letter.
+
+	An inherant flaw exists with julian dates where years like 1700, 1800 and 1900 are not leap years
+		yet there is a PHP julian value for Feb 29 in those years. If you work with dates that span Feb 29
+		in a non-leap year, this date math class can render results that are off by one day.
+		Example: adding 2 days to 1900-02-28 (jd 2415091) renders an invalid result of
+		1900-03-01 (jd 2415093) since jd 2415092 is the non-existant date of 1900-02-29.
+
+	The depth count variable keeps track of how many internal function calls are active
+		and depth 1 serves to identify which function was called from the calling program.
+
+	HINT: to get the entire call stack
+	$stack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+print_r($stack);
+
+Functions included in this class are:
+
+### Add Days - add (or subtract when negative) days to the given date.
+function AddDays($days=0, $date=null, $fmt=null)
+
+### Add Months - add (or subtract when negative) months to the given date.
+function AddMonths($months=0, $date=null, $fmt=null)
+
+### Add Weeks - add (or subtract when negative) weeks to the given date.
+function AddWeeks($weeks=0, $date=null, $fmt=null)
+
+### Add Years - add (or subtract when negative) years to the given date.
+function AddYears($years=0, $date=null, $fmt=null)
+
+### Age In Years - return the absolute age in years for one date versus another.
+function AgeInYears($date1=null, $date2=null)
+
+### Date Is Valid - return the valid date. Blank and null default to now.
+function DateIsValid($date=null, $fmt=null, $which=1)
+
+### Date To Julian - convert a date to integer julian days. Optional time block.
+function DateToJulian($date=null)
+
+### Day Month Year - return the date formatted as day month year like 30 Oct 2013.
+function DayMonthYear($date=null)
+
+### Day Of The Month - return the numeric day of the month.
+function DayOfTheMonth($date=null)
+
+### Day Of The Week - return the three-character short form for the day of the week for the given date.
+function DayOfTheWeek($date=null)
+
+### Day Of The Year - return the numeric day of the year for the given date. 1-365 or 366.
+function DayOfTheYear($date=null)
+
+### Day Of The Year To Date - convert the day of the year to a date in the given year.
+function DayOfTheYearToDate($dayOfYear = 0, $year = null, $fmt=null)
+
+### Difference In Days - return the difference between two dates in completed days based on Julian days.
+function DifferenceInDays($date1=null, $date2=null)
+
+### Difference In Weeks - return the difference in complete weeks for the dates given, not partial weeks.
+function DifferenceInWeeks($date1=null, $date2=null)
+
+### Difference In Years - return the difference between two dates in years, may be negative.
+function DifferenceInYears($date1= null, $date2= null)
+
+### Dow Month Day Year - return a date formatted as day-of-week, month, day, and year.
+function DowMonthDayYear($date=null)
+
+### End Of Next Month - return the end of next month.
+function EndOfNextMonth($date=null, $fmt=null)
+
+### End Of Next Week- return the end of next week.
+function EndOfNextWeek($date=null, $fmt=null)
+
+### End Of Next Year - return the end of next year.
+function EndOfNextYear($date=null, $fmt=null)
+
+### End Of Prior Month - return the end of the prior month.
+function EndOfPriorMonth($date=null, $fmt=null)
+
+### End Of Prior Week- return the end of the prior week.
+function EndOfPriorWeek($date=null, $fmt=null)
+
+### End Of Prior Year - return the end of the prior year.
+function EndOfPriorYear($date=null, $fmt=null)
+
+### End Of This Month - return the end of the month for the given date.
+function EndOfThisMonth($date=null, $fmt=null)
+
+### End Of This Week - return the end of the week for the given date.
+function EndOfThisWeek($date=null, $fmt=null)
+
+### End Of This Year - return the end of the year for the given date.
+function EndOfThisYear($date=null, $fmt=null)
+
+### First Of Given Month - return the next first of the month for the given month.
+function FirstOfGivenMonth($mon=null, $date=null, $fmt=null)
+
+### First Of Next Month - return the 1st of next month after the given date.
+function FirstOfNextMonth($date=null, $fmt=null)
+
+### First of Next Week - return the 1st of next week after the given date.
+function FirstOfNextWeek($date=null, $fmt=null)
+
+### First Of Next Year - return the 1st of next year after the given date.
+function FirstOfNextYear($date=null, $fmt=null)
+
+### First Of Prior Month - return the 1st of prior month from the given date.
+function FirstOfPriorMonth($date=null, $fmt=null)
+
+### First Of Prior Week- return the 1st of prior week from the given date.
+function FirstOfPriorWeek($date=null, $fmt=null)
+
+### First Of Prior Year - return the 1st of prior year from the given date.
+function FirstOfPriorYear($date=null, $fmt=null)
+
+### First Of This Month - return 1st of the month for the given date.
+function FirstOfThisMonth($date=null, $fmt=null)
+
+### First Of This Week - return 1st of the week for the given date.
+function FirstOfThisWeek($date=null, $fmt=null)
+
+### First Of This Year - return 1st of the year for the given date.
+function FirstOfThisYear($date=null, $fmt=null)
+
+### Get Last Error - return the last error message.
+function GetLastError()
+
+### Greater Date - return the greater of two dates ignoring any null or blank dates. At least one date must be provided.
+function GreaterDate($date1=null, $date2=null, $fmt=null)
+
+### Is A Date - return true when the given date looks like a date. Null and blank are not dates.
+function IsADate($date=null)
+
+### Is The First - true when the given date is the first of the month, zero when not, false when invalid date is sent.
+function IsTheFirst($date=null)
+
+### Julian To Date - convert an integer or integer string to a date string.
+function JulianToDate($value=null, $fmt=null)
+
+### Last Dow For A Month - return the last day of the week for the given date - for example: find the last Friday of a month.
+function LastDowForAMonth($dayOfWeek, $date=null, $fmt=null)
+
+### Lesser Date - return the lesser of two dates ignoring any null or blank dates. At least one date must be passed.
+function LesserDate($date1=null, $date2=null, $fmt=null)
+
+### Maximum Date - the maximum of two dates. Null and blank dates default to now.
+function MaximumDate($date1=null, $date2=null, $fmt=null)
+
+### Minimum Date - the lesser of two dates. Null and blank dates default to now.
+function MinimumDate($date1=null, $date2=null, $fmt=null)
+
+### Month Day Year - return a date formatted as 'month day, year' like Mar 3, 2005.
+function MonthDayYear($date=null)
+
+### Month Number - the integer month number for the named month.
+function MonthNumber($mon=null)
+
+### Month Str - return the 3-char string for the month of the given date.
+function MonthStr($date=null)
+
+### N Days Before End Of The Month - return N days before the end of the month for the given date.
+function NDaysBeforeEndOfTheMonth($n=0, $date = null, $fmt= null)
+
+### Next Day Of The Week - return the next date for a named day of the week when given date is not same as the day sent.
+function NextDayOfTheWeek($dayOfWeek, $date=null, $fmt=null)
+
+### Next First Of The Month - the next first of the month if the given date is not the 1st.
+function NextFirstOfTheMonth($date=null, $fmt=null)
+
+### Next First Of The Year - the next first of the year if the given date is not the 1st.
+function NextFirstOfTheYear($date=null, $fmt=null)
+
+### Next Nth Day Of The Month - the next Nth day of the month after the given date, e.g. 3rd Tuesday.
+function NextNthDayOfTheMonth($n=1, $dayOfWeek, $date=null, $fmt=null)
+
+### Next Nth Of The Month - advance as needed to the next Nth day of a month limited to 1-31.
+function NextNthOfTheMonth($n=0, $date=null, $fmt=null)
+
+### Nth Of The Month - return Nth day of the month for the given date limited to 1-31.
+function NthOfTheMonth($n=0, $date=null, $fmt=null)
+
+### Number Of Days In A Month - return a count of the number of days in a month.
+function NumberOfDaysInAMonth($date=null)
+
+### Numeric Day Of The Week - return the numeric day of the week 0-6 based on the public day array.
+function NumericDayOfTheWeek($date=null)
+
+### Numeric Month - return the numeric month (1-12) for the given date.
+function NumericMonth($date = null)
+
+### Numeric Year - return the numeric year for the given date.
+function NumericYear($date = null)
+
+### Prior Day Of The Week - return the date for the prior day of the week from the given date. Back up, if needed.
+function PriorDayOfTheWeek($dayOfWeek, $date=null, $fmt=null)
+
+### Subtract Days - subtract absolute number of days from the given date.
+function SubtractDays($days=0, $date=null, $fmt=null)
+
+### Subtract Months - subtract absolute number of months from the given date.
+function SubtractMonths($months=0, $date=null, $fmt=null)
+
+### Subtract Weeks - subtract absolute number of weeks from the given date.
+function SubtractWeeks($weeks=0, $date=null, $fmt=null)
+
+### Subtract Years - subtract absolute number of years from the given date.
+function SubtractYears($years=0, $date=null, $fmt=null)
+
+### Use Exceptions - opt to set exceptions on or off and return the state.
+function UseExceptions($state=null)
+
+### Use Time Blocks - opt to set using time blocks on or off and return the state.
+function UseTimeBlocks($state=null)
+
+### Week Number - return the week number (0-53) of the year, weeks begin on the first day in the day array.
+function WeekNumber($date=null)
+
+### Ymd - convert a date to an array of year, month, day from a date. Optional time block.
+function Ymd($date=null)
+
+### Ymd Array To Date - convert a YMD array to a date string.
+function YmdArrayToDate($ymdArray=null, $fmt=null)
+
+### Ymd String To Date - convert a string in the form of yyyymmdd to a date. Optional time block.
+function YmdStringToDate($yyyymmdd=null, $fmt=null)
+
+######## Private functions #####
+### Add Time Block - return a date with time block appended when time blocks are used
+private function AddTimeBlock($date, $tb=false)
+
+### Blank Item - true when what is passed is a blank string.
+private function BlankItem($item)
+
+### Day Is Valid - return 3-char day when the day is in the week-day array.
+private function DayIsValid($dayOfWeek)
+
+### Default Date - default a date to today when the date is null or blank. This does not validate the date.
+private function DefaultDate($date=null)
+
+### Format A Date - format a date using the requested format string.
+private function FormatADate($date, $fmt=null)
+
+### Fresh Start - set global variables for a fresh start.
+private function FreshStart()
+
+### Get Date Only - get the date part without the time block.
+private function GetDateOnly($date)
+
+### Get The Time Block - return an appropriate time block from a date.
+private function GetTheTimeBlock($date)
+
+### Get a YMD array with any time block removed.
+private function GetYmdArray($date, $includeTime=true)
+
+### Go Deeper - add one to the internal depth count.
+private function GoDeeper()
+
+### Go Up - subtract one from the depth count.
+private function GoUp()
+
+### Greater Time Block - return the greater of two time blocks (1, 2, or zero when identical).
+private function GreaterTimeBlock($tb1 = '0:0', $tb2 ='0:0' )
+
+### Integer Or String Value - return the value as an integer.
+private function IntegerOrStringValue($in= false)
+
+### Integer Range - true when a value is in the 'from' and 'to' range.
+private function IntegerRange($x, $from, $to)
+
+### Julian Value - convert a date to Julian integer without the time block.
+private function JulianValue($date)
+
+### Mon Year - format a date as 'mon year' like Mar 2005.
+private function MonYear($date=null)
+
+### Null Date - true when what is passed is null.
+private function NullItem($item=null)
+
+### Return Result - go up one level in the depth and return the given result.
+private function ReturnResult($result)
+
+### Set Error Message - set an error message in the public error variable.
+private function SetErrorMessage($msg, $goback=1)
+
+### Set Invalid Date Message in the public variable  for the lastError.
+private function SetInvalidDateMessage($x)
+
+### Set Invalid Day Of Week Message in the public variable  for the lastError.
+private function SetInvalidDowMessage($x)
+
+### Set Invalid Integer Message in the public variable  for the lastError.
+private function SetInvalidIntegerMessage($x)
+
+### Set An Invalid Message in the public variable  for the lastError.
+private function SetInvalidMsg($msg='', $back = 2)
+
+### String of Digits Only - returns only digits 0-9 as a string which may have leading zeros.
+private function StringOfDigitsOnly($in=null)
+
+### Time Block Value - return the integer value in seconds since midnight of a time block.
+private function TimeBlockValue($aTime=false)
+
+### Valid Format - return a valid format string.
+private function ValidFormat($fmt=null)
+
+### Valid Time Block - return the time block when it is valid.
+private function ValidTimeBlock($aTime = null)
+*/
+### declare the date_math_class
+	# the public variables below can be changed for different languages
+	# array of month abbreviations all upper case
+	# The base date below assumes the week begins on a Sunday and needs to agree with the
+	# first element in the day-of-week array below.  Feb 1, 1942 was a Sunday.
+	# array of day-of-week abbreviations all upper case
+	# the public variables below can be changed for different preferences for defaults.
+	# default output date format
+	# initialize PUBLIC variables
+	# declare PRIVATE variables
+	# initialize PRIVATE variables
+### __construct() construct the class
+	# initialize control variables
+	# initialize the julian date for the base date
+	# the minimum Julian integer value is that for year 0032
+# end function
+
+### Add Days - add (or subtract when negative) days to the given date.
+	# add to the depth count
+	# if days are given as an integer or integer string
+		# if input is a valid date
+			# hold the time block
+			# use integer value for days
+			# convert date to julian
+			# apply the plus or minus increment
+			# convert Julian to JD (mm/dd/yyyy)
+			# when the new date does not exist like Feb 29, 1900
+			# loop until there is a good date
+				# add or subtract one more julian count
+				# convert Julian to JD (mm/dd/yyyy)
+			# <---
+			# append the appropriate time block
+			# format the resulting date
+		# else
+			# report an invalid date
+		# ....
+	# else
+		# report an error with days
+	# ....
+	# return the result
+# end function
+
+### Add Months - add (or subtract when negative) months to the given date.
+	# add to the depth count
+	# if months are given as an integer or integer string
+		# if the given date is valid
+			# capture the time block
+			# make a YMD array
+			# add months to month part of a YMD array
+			# loop while mon > 12 (adding months)
+				# add a year and subtract 12 months
+			# <---
+			# loop while mon < 1 (subtracting months)
+				# subtract a year and add 12 months
+			# <---
+			# loop until checkdate says it is a valid date -- because there may be fewer days in the new month
+				# back up one day
+			# <---
+			# build the resulting date with dashes
+			# append appropriate time block
+			# return the date in desired format
+		# else
+			# report an invalid date
+		# ....
+	# else
+		# report error with months
+	# ....
+	# return the result
+# end function
+
+### Add Weeks - add (or subtract when negative) weeks to the given date.
+	# add to the depth count
+	# if weeks are given as an integer or integer string
+		# if adding (weeks *7) to days results in a good date.
+			# format the resulting date
+		# else
+			# report invalid date message
+		# ....
+	# else
+		# report error with weeks
+	# ....
+	# return the result
+# end function
+
+### Add Years - add (or subtract when negative) years to the given date.
+	# add to the depth count
+	# if years are given as an integer or integer string
+		# if adding (years * 12) to months results in a good date
+			# format the resulting date
+		# else
+			# report the error with the given date
+		# ....
+	# else
+		# report invalid number of years
+	# ....
+	# return the result
+# end function
+
+### Age In Years - return the absolute age in years for one date versus another.
+	# add to the depth count
+	# if date 1 is valid
+		# if date 2 is valid
+			# determine absolute difference in years
+		# else
+			# report date2 was invalid
+		# ....
+	# else
+		# report date 1 was invalid
+	# ....
+	# return the result
+# end function
+
+### Date Is Valid - return the valid date. Blank and null default to now.
+	# add to the depth count
+	# if this is the first call to DateIsValid() for this date (1 or 2)
+		# default to now when null or blank date
+		# if the date is truly a date
+			# note that it has been validated
+			# format the result
+		# else
+	 		# report invalid date
+		# ....
+	# else
+		# this date has already been validated so return it
+	# ....
+	# return the result
+# end function
+
+### Date To Julian - convert a date to integer julian days. Optional time block.
+	# add to the depth count
+	# if the date is valid
+		# get the time block to use
+		# get the julian value
+		# append appropriate time block
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Day Month Year - return the date formatted as day month year like 30 Oct 2013.
+	# add to the depth count
+	# if the date is valid
+		# hold the time block
+		# get a YMD array
+		# start with the day
+		# add the string for the month
+		# add the year
+		# add the time block
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Day Of The Month - return the numeric day of the month.
+	# add to the depth count
+	# if a valid date is found
+		# get the YMD array
+		# return day number
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Day Of The Week - return the three-character short form for the day of the week for the given date.
+	# add to the depth count
+	# if a valid date is found
+		# get numeric day of the week
+		# retrieve the day from the day array
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Day Of The Year - return the numeric day of the year for the given date. 1-365 or 366.
+	# add to the depth count
+	# if the date is valid
+		# get end of prior year to be day 0
+		# result is difference in days from day 0 to the date provided
+	# else invalid date
+		 # report invalid date
+	# ....
+	# return the result
+# end function
+
+### Day Of The Year To Date - convert the day of the year to a date in the given year.
+	# add to the depth count
+	# if the year is null
+		# use the current year
+	# ....
+	# use year as integer
+	# if year is between 0032 and 9999
+		# determine how many days are in the year
+		# use day of the year as integer
+		# if day is between 1 and maximum days
+			# build a date for 1st of the given year
+			# add day of the year minus 1 to the date
+			# format the resulting date
+		# else
+			# it is an invalid day
+		# ....
+	# else
+		# it is an invalid year
+	# ....
+	# return the result
+# end function
+
+### Difference In Days - return the difference between two dates in completed days based on Julian days.
+# Note: the result can be negative when date1 > date2.
+	# add to the depth count
+	# if date 1 is valid
+		# hold the time block for date 1
+		# if date 2 is valid
+			# hold the time block for date 2
+			# convert to Julian days for first date
+			# convert to Julian days for second date
+			# result is the second date minus the first
+			# if using time blocks
+				# determine which is the greater time block, 1, 2 or 0 = tied
+				# if the result > zero and time block 1 > time block 2
+					# subtract one day
+				# elseif the result < zero and time block 2 > time block 1
+					# add one day
+				# ....
+			# ....
+		# else
+			# report date two is invalid date
+		# ....
+	# else
+		# report date one is invalid date
+	# ....
+	# return the result
+# end function
+
+### Difference In Weeks - return the difference in complete weeks for the dates given, not partial weeks.
+	# add to the depth count
+	# if date 1 is valid
+		# if date 2 is valid
+			# get difference in days
+			# divide by 7
+			# drop any fraction
+		# else
+			# report invalid date2
+		# ....
+	# else
+		# report invalid date1
+	# ....
+	# return the result
+# end function
+
+### Difference In Years - return the difference between two dates in years, may be negative.
+	# add to the depth count
+	# if date 1 is valid
+		# hold the time block for date 1
+		# if date 2 is valid
+			# hold the time block for date 2
+			# convert dates to arrays of Ymd
+			# initial result is to subtract the years
+			# calculate values for day of the year for both dates
+			# this formula avoids cases where Feb 29 = Mar 1
+			# if using time blocks
+				# adjust date 2 when a complete 24 day has not elapsed
+				# determine which is the greater time block
+				# if years > 0 and time block 1 > time block 2
+					# subtract one day from 2nd date reducing the span
+				# else if years < 0 and time block 2 > time block 1
+					# add one day to 2nd date reducing the span
+				# ....
+				# redo the YMD array for date 2
+				# recalculate the value for doy 2
+			# ....
+			# if years is > 0 and doy1 > doy2
+				# subtract one year
+			# else years is < 0 and doy1 < day2
+				# add 1 year
+			# ....
+			# result is the computation of years
+		# else
+			# report invalid date 2
+		# ....
+	# else
+		# report invalid date 1
+	# ....
+	# return the result
+# end function
+
+### Dow Month Day Year - return a date formatted as day-of-week, month, day, and year.
+	# add to the depth count
+	# if a valid date was passed
+		# get the day of the week
+		# append the month, day, and year
+	# else
+		 # report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Next Month - return the end of next month.
+	# add to the depth count
+	# if a valid date was passed
+		# add one month
+		# get the end of that month
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Next Week- return the end of next week.
+	# add to the depth count
+	# if a valid date was passed
+		# get end of its week
+		# add one week
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Next Year - return the end of next year.
+	# add to the depth count
+	# if a valid date was passed
+		# get end of its year
+		# add one year to that
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Prior Month - return the end of the prior month.
+	# add to the depth count
+	# if a valid date was passed
+		# get its 1st of the month
+		# subtract one day
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Prior Week- return the end of the prior week.
+	# add to the depth count
+	# if a valid date was passed
+		# get first of its week
+		# subtract one day
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of Prior Year - return the end of the prior year.
+	# add to the depth count
+	# if a valid date was passed
+		# get 1st of its year
+		# subtract one day
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of This Month - return the end of the month for the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# get 1st of the next  month
+		# subtract one day
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of This Week - return the end of the week for the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# get 1st of its week
+		# add 6 days
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### End Of This Year - return the end of the year for the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# get 1st of next year
+		# subtract one day
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Given Month - return the next first of the month for the given month.
+	# add to the depth count
+	# if a valid date was passed
+		# if a month string was passed
+			# make it upper case
+			# use first 3 characters
+			# if the month is in the month array
+				# get the next first of the month when the date is not already the first
+				# loop until the target month matches that in the month array
+					# get the 1st of the next month
+				# <---
+				# format the resulting date
+			# else
+				# report month is not found in the array
+			# ....
+		# else
+			# report month is not a string
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Next Month - return the 1st of next month after the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# back up to 1st of its month
+		# add one month to that date
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First of Next Week - return the 1st of next week after the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get first the its week
+		# add 7 days to that date
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Next Year - return the 1st of next year after the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get the 1st of its year
+		# add one year
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Prior Month - return the 1st of prior month from the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# back up to 1st of its month
+		# subtract one month from that date
+		# format the resulting date
+	# else
+		# invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Prior Week- return the 1st of prior week from the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get the first of its week
+		# subtract 7 days from that date
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of Prior Year - return the 1st of prior year from the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get the 1st of its year
+		# subtract one year
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of This Month - return 1st of the month for the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get the day of the month
+		# subtract one less than the day of the month from the date
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of This Week - return 1st of the week for the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# get numeric day of the week 0-6
+		# subtract that amount from the valid date
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### First Of This Year - return 1st of the year for the given date.
+	# add to the depth count
+	# if a valid date is passed
+		# hold the time block
+		# get the YMD array
+		# build a string for the year and Jan 1
+		# append the appropriate time block
+		# format the resulting date
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Get Last Error - return the last error message.
+	# return the last error message
+# end function
+
+### Greater Date - return the greater of two dates ignoring any null or blank dates. At least one date must be provided.
+	# add to the depth count
+	# if date 1 is blank or null
+		# its value is zero
+	# else if date 1 is a date
+		# get the time block for date 1
+		# convert date 1 to julian only
+	# else
+		# it is invalid
+	# ....
+	# if date 2 is blank or null
+		# its value is zero
+	# else if date 2 is a date
+		# get the time block for date 2
+		# convert date 2 to julian
+	# else
+		# it is invalid
+	# ....
+	# if date 1 is not invalid
+		# if date 2 is not invalid
+			# if both dates are zero
+				# report an error
+			# else
+				# if $jd2 not a date
+					# we want date1
+				# elseif $jd1 not a date
+					# we want date2
+				# elseif using time blocks and dates are equal, look at optional time blocks
+					# if date1 has the greater time block, we want date 1 else date 2
+				# else
+					# if date 1 is the greater date, we want it else date 2
+				# ....
+				# if we want date 1
+					# return date 1
+				# else
+					# return date2
+				# ....
+			# ....
+		# else
+			#report invalid date 2
+		# ....
+	# else
+		# report invalid date1
+	# ....
+	# return result
+# end function
+
+### Is A Date - return true when the value passed appears to look like a date. Null and blank are not dates.
+	# add to the exception depth count
+	# if something is passed and it can be made into a YMD array
+		# it is good
+	# else
+		# if blank is passed
+			# replace the date with BLANK
+		# elseif null is passed
+			# replace the date with NULL
+		# ....
+		# report invalid date
+	# ....
+	# return true or false
+# end function
+
+### Is The First - true when the given date is the first of the month, zero when not, false when invalid date is sent.
+	# add to the depth count
+	# if a valid date was passed
+		# get a YMD array
+		# return true when the day == 1 or zero when not
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Julian To Date - convert an integer or integer string to a date string.
+	# add to the depth count
+	# save any accompanying time block
+	# get the date part as an integer
+	# if the value passed >= minimum Julian date
+		# PHP function converts the value to m/d/y string
+		# append the appropriate time block
+		# convert the string to a date
+	# else
+		# report invalid integer was passed
+	# ....
+	# return the result
+# end function
+
+### Last Dow For A Month - return the last day of the week for the given date - for example: find the last Friday of a month.
+	# add to the depth count
+	# if the date is valid
+		# get the end of its month
+		# if the day of the week is valid
+			# back up until the day of the week matches
+				# subtract one day
+			# <---
+			# format the resulting date
+		# else
+			# report an invalid day string is passed
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Lesser Date - return the lesser of two dates ignoring any null or blank dates. At least one date must be passed.
+	# add to the depth count
+	# if date 1 is blank or null
+		# its value is zero
+	# else if date 1 is a date
+		# hold its time block
+		# convert it to julian
+	# else
+		# it is invalid
+	# ....
+	# if date 2 is blank or null
+		# its value is zero
+	# else if date 2 is a date
+		# hold its time block
+		# convert it to julian
+	# else
+		# it is invalid
+	# ....
+	# if date 1 is not invalid
+		# if date 2 is not invalid
+			# if both dates passed are empty
+				# report an error
+			# else
+				# if $jd1 is not a date
+					# we want date2
+				# else if $jd2 not a date
+					# we want date1
+				# elseif using time blocks and dates are equal, look at optional time blocks
+					# if date2 has the greater time block, we want date 1 else date 2
+				# else
+					# if date 1 is the lesser date, we want it else date 2
+				# ....
+				# if we want date 1
+					# return date 1
+				# else
+					# return date2
+				# ....
+			# ....
+		# else
+			#report invalid date 2
+		# ....
+	# else
+		# report invalid date1
+	# ....
+	# return the result
+# end function
+
+### Maximum Date - the maximum of two dates. Null and blank dates default to now.
+	# add to the depth count
+	# if date 1 is a valid date
+		# if date 2 is also a valid date
+			# get the greater of the two
+		# else
+			# report invalid date 2
+		# ....
+	# else
+		# report invalid date 1
+	# ....
+	# return the result
+# end function
+
+### Minimum Date - the lesser of two dates. Null and blank dates default to now.
+	# add to the depth count
+	# if date 1 is a date
+		# if date 2 is also a date
+			# return the lesser of the two dates
+		# else
+			# report invalid2
+		# ....
+	# else
+		# report invalid1
+	# ....
+	# return the result
+# end function
+
+### Month Day Year - return a date formatted as 'month day, year' like Mar 3, 2005.
+	# add to the depth count
+	# if the date is valid
+		# hold the time block
+		# get a YMD array
+		# start with the string for the month
+		# add the day, comma and year
+		# append the approprite time block
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Month Number - the integer month number for the named month.
+	# add to the depth count
+	# if a string is passed
+		# use just the 1st three characters
+		# make it upper case for searching the month array
+		# if the month is in the month array
+			# return its position in the month array
+			# because arrays begin with zero, add 1 to it
+		# else
+			# report the month is not in the month array
+		# ....
+	# else
+		# not a string
+	# ....
+	# return the result
+# end function
+
+### Month Str - return the 3-char string for the month of the given date.
+	# add to the depth count
+	# if a valid date is given
+		# get a YMD array
+		# hold the numeric month
+		# get 3-char month from the public array
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### N Days Before End Of The Month - return N days before the end of the month for the given date.
+	# add to the depth count
+	# if a valid date was passed
+		# hold month and year for the date
+		# get end of the month for the date
+		# if n is an integer or integer string
+			# subtract N days
+			# if still in the same month and year
+				# return formatted date
+			# else
+				# report invalid value for N
+			# ....
+		# else
+			# report invalid value for N
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return result
+# end function
+
+### Next Day Of The Week - return the next date for a named day of the week when given date is not same as the day sent.
+	# add to the depth count
+	# if a valid date was passed
+		# if the day of the week is valid
+			# loop until the days of the week match
+				# add one day
+			# <---
+			# format the resulting date
+		# else
+			# report an invalid day string was passed
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Next First Of The Month - the next first of the month if the given date is not the 1st.
+	# add to the depth count
+	# if a valid date was passed
+		# if the given date is not the 1st of the month,
+			# get the first of the next month
+		# ....
+		# format the result
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Next First Of The Year - the next first of the year if the given date is not the 1st.
+	# add to the depth count
+	# if a valid date was passed
+		# get the day of the year
+		# if the given date is not the first of the year
+			# get 1st of next year
+		# ....
+		# format the result
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Next Nth Day Of The Month - the next Nth day of the month after the given date, e.g. 3rd Tuesday.
+	# add to the depth count
+	# if a valid date was passed
+		# if N is between 1 and 5
+			# if a known day of the week was passed
+				# get the date for the next day of the week
+				# loop until the date is found
+					# get day of the month for the date to examine
+					# if N=5 and day of the month >= 29,
+						# date is found so break the loop
+					# elseif N=4 and day of the month between 22 - 28
+						# date is found so break the loop
+					# elseif N=3 and day of the month between 15 - 21
+						# date is found so break the loop
+					# elseif N=2 and day of the month between 8 - 14
+						# date is found so break the loop
+					# elseif N=1 and day of the month <= 7
+						# date is found so break the loop
+					# ....
+					# add 1 week and try again
+				# <---
+				# format the date found
+			# else
+				# report invalid day of the week
+			# ....
+		# else
+			# report invalid value for N
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Next Nth Of The Month - advance as needed to the next Nth day of a month limited to 1-31.
+	# add to the depth count
+	# if a valid date was passed
+		# treat N as an integer
+		# if N is between 1 and 31
+			# get the day of the month for the given date
+			# if day for the given date is after the target N
+				# get 1st of next month
+				# else get 1st of the month passed
+			# ....
+			# if not that many days in the trial month
+				# add one month
+			# ....
+			# advance to the Nth of the month found
+			# return the date
+		# else
+			# invalid value for N
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Nth Of The Month - return Nth day of the month for the given date limited to 1-31.
+	# add to the depth count
+	# if a valid date was passed
+		# if N is between 1 and 31
+			# hold the month for the date sent
+			# get end of prior month
+			# apply the N increment to end of the prior month
+			# get the month for the calculated date
+			# if the month sent and calculated are the same
+				# make returning date
+			# else
+				# report an error: it can not be determined
+			# ....
+		# else
+			# report invalid value for N
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Number Of Days In A Month - return a count of the number of days in a month.
+	# add to the depth count
+	# if the date is valid
+		# get the end of the month for the date
+		# return that day of that month
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Numeric Day Of The Week - return the numeric day of the week 0-6 based on the public day array.
+	# add to the depth count
+	# if date can be made into a julian date
+		# get the difference between it and the julian base date -- which is the start of a week
+		# compute modulo 7
+		# if negative (earlier than the base date)
+			# add 7
+		# ....
+	# else
+		# report an invalid date
+	# ....
+	# return the result
+# end function
+
+### Numeric Month - return the numeric month (1-12) for the given date.
+	# add to the depth count
+	# if the date is valid
+		# make a YMD array
+		# return the month part
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Numeric Year - return the numeric year for the given date.
+	# add to the depth count
+	# if the date is valid
+		# make a YMD array
+		# return the year part
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Prior Day Of The Week - return the date for the prior day of the week from the given date. Back up, if needed.
+	# add to the depth count
+	# if a valid date was passed
+		# if a known day of the week is passed
+			# while the day of the week is not what we want
+				# subtract one day
+			# <---
+			# format the result
+		# else
+			# report an invalid day string is passed
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Subtract Days - subtract absolute number of days from the given date.
+	# add to the depth count
+	# if days are given as an integer or integer string
+		# if input is a valid date
+			# use absolute value of days to subtract
+			# multiply by -1
+			# add negative days
+			# format the resulting date
+		# else
+			# report invalid date
+		# ....
+	# else
+		# report an error with days
+	# ....
+	# return the result
+# end function
+
+### Subtract Months - subtract absolute number of months from the given date.
+	# add to the depth count
+	# if months are given as an integer or integer string
+		# use absolute value of months to subtract
+		# multiply by -1
+		# if adding negative months yields a good date
+			# format the resulting date
+		# else
+			# report invalid date
+		# ....
+	# else
+		# report error with months
+	# ....
+	# return the result
+# end function
+
+### Subtract Weeks - subtract absolute number of weeks from the given date.
+	# add to the depth count
+	# if weeks are given as an integer or integer string
+		# if a valid date was passed
+			# use absolute value of weeks to subtract
+			# calculate days to subtract by multiplying weeks by -7
+			# subtract those days
+			# format the resulting date
+		# else
+			# report invalid date
+		# ....
+	# else
+		# report error with weeks
+	# ....
+	# return the result
+# end function
+
+### Subtract Years - subtract absolute number of years from the given date.
+	# add to the depth count
+	# if years are given as an integer or integer string
+		# use absolute value of years *12 to subtract months
+		# if subtracting that many months results in a good date
+			# format the resulting date
+		# else
+			# report invalid date
+		# ....
+	# else
+		# report an error with years
+	# ....
+	# return the result
+# end function
+
+### Use Exceptions - opt to set exceptions on or off and return the state.
+	# if null is not passed
+		# anything that evaluates to true
+			# turns on exceptions
+			# else turned off
+		# set the state for using exceptions
+	# ....
+	# return the state
+# end function
+
+### Use Time Blocks - opt to set using time blocks on or off and return the state.
+	# if null is not passed
+		# anything that evaluates to true
+			# turns on time blocks
+			# else turned off
+		# set the state for using exceptions
+	# ....
+	# return the state
+# end function
+
+### Week Number - return the week number (0-53) of the year, weeks begin on the first day in the day array.
+	# add to the depth count
+	# if the date is valid
+		# get the 1st of its year
+		# get 1st of the week for Jan 1
+		# get the difference between day zero of the year and desired date
+		# week number is the integer value of difference divided by 7
+		# if Jan 1 is also day 0
+			# add one to the week
+		# ....
+	# else
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+### Ymd - convert a date to an array of year, month, day from a date. Optional time block.
+	# add to the depth count
+	# default to today when null or blank date
+	# try to get a YMD array
+	# if no result was found
+		# report invalid date
+	# else if using time blocks
+		# get the time block when used
+		# attach the time block to the resulting array
+	# ....
+	# return either an array or false
+# end function
+
+### Ymd Array To Date - convert a YMD array to a date string.
+	# add to the depth count
+	# assume the array is bad
+	# count the array elements
+	# if a numeric array of 3 or 4 values was passed: year , month, day opt time block
+		# if non-zero integers or integer strings are given
+			# build a date string
+			# if it makes a valid date
+				# if there is a 4th element
+					# add it to the date
+				# ....
+				# format the good resulting date
+			# ....
+		# ....
+	# ....
+	# if still a bad result
+		# report invalid array
+	# ....
+	# return the result
+# end function
+
+### Ymd String To Date - convert a string in the form of yyyymmdd to a date. Optional time block.
+	# add to the depth count
+	# assume a bad result
+	# if a string is passed
+		# trim leading and trailing blanks
+		# explode the string into date / time
+		# test the date part
+		# if no non-digits
+			# if it has exactly 8 digits
+				# if there is a time element
+					# add it to the date
+				# ....
+				# if the date is valid
+					# format a good resulting date
+				# ....
+			# ....
+		# ....
+	# ....
+	# if still a bad result
+		# report invalid date
+	# ....
+	# return the result
+# end function
+
+######## Private functions #####
+### Add Time Block - return a date with time block appended when time blocks are used
+	# get just the date
+	# if using time blocks
+		# if there is a time block passed
+			# append the passed time block to the date
+		# ....
+	# ....
+	# return result
+# end function
+
+### Blank Item - true when what is passed is a blank string.
+	# return true if it is a string and trimmed length is zero
+# end function
+
+### Day Is Valid - return 3-char day when the day is in the week-day array.
+	# add to the depth count
+	# convert to upper case
+	# use just the 1st three characters
+	# if the day of the week is in the day array
+		# return the day
+	# else
+		# return false
+	# ....
+	# return result
+# end function
+
+### Default Date - default a date to today when the date is null or blank. This does not validate the date.
+	# if date is null or blank
+		# if using time blocks
+			# return today with a time block.
+		# else
+			# return just the date
+		# ....
+	# else
+		# return the date sent
+	# ....
+	# return the result
+# end function
+
+### Format A Date - format a date using the requested format string.
+	# be sure we have a valid formatting string
+	# if a YMD array can be made which it always should be
+		# hold the time block
+		# determine the desired separator: slash, dash, dot or none for the return format
+		# if a slash
+			# separate with /
+		# elseif a dash
+			# separate with -
+		# elseif a dot
+			# separate with .
+		# else
+			# no separator
+		# ....
+		# only three output arrangements are used -- y,m,d or m,d,y or d,m,y with or without a separator
+		# if m comes first in the output format,
+			# it is month first
+		# elseif the day is first
+			# it is d m y
+		# else
+			# the year comes first
+		# ....
+		# build the resulting date with the chosen separator
+		# add the appropriate time block
+	# else
+		# bad date was sent which should never happen - return false
+	# ....
+	# return the result
+# end function
+
+### Fresh Start - set global variables for a fresh start.
+# end function
+
+### Get Date Only - get the date part without the time block.
+	# trim any leading or trailing blanks from the date
+	# separate the date into 2 parts at most
+	# return the date part
+# end function
+
+### Get The Time Block - return an appropriate time block from a date.
+	# if using time blocks
+		# trim any leading or trailing blanks from the date
+		# replace multiple spaces with one space
+		# separate the date into 2 pieces at most
+		# if two elements are found and a valid time block is present
+			# we captured it
+		# else
+			# set time block to 00:00
+		# ....
+	# else
+		# return blank
+	# ....
+	# return the time block
+# end function
+
+### Get a YMD array with any time block removed.
+	# remove any time block
+	# assume the result is false
+	# if exactly 8 characters and all are digits, treat it as yyyymmdd
+		# divide it into an array of 3 parts
+		# if year >= 32 and it checks good
+			# return the array
+		# else
+			# report invalid date
+		# ....
+	# elseif the date uses - . or / in its format
+		# convert any / to dash
+		# convert any . to dash
+		# separate the string into parts on the dash
+		# rebuild date as an integer and as a string with digits only
+			# because non-digits are not valid
+		# if exactly 3 parts are found, and string value == integer value
+			# if year >= 32 and checkdate says the y,m,d checks
+				# it is a good array
+			# elseif checkdate verifies it as as m,d,y and year >= 32
+				# rebuild the array as y,m,d
+			# ....
+			# if the result is a valid array
+				# make sure month and day have 2 digits each and year has 4
+			# ....
+		# ....
+	# ....
+	# return either an array or false
+# end function
+
+### Go Deeper - add one to the internal depth count.
+	# add 1 to the exception depth
+	# return the depth
+# end function
+
+### Go Up - subtract one from the depth count.
+	# subtract one count
+	# depth should never be negative
+# end function
+
+### Greater Time Block - return the greater of two time blocks (1, 2, or zero when identical).
+	# convert time 1 to seconds since midnight
+	# convert time 2 to seconds since midnight
+	# if very same time
+		# return zero
+	# else
+		# return the greater of time 1 or time 2
+	# ....
+	# return 0, 1, or 2
+# end function
+
+### Integer Or String Value - return the value as an integer.
+	# if a string is given
+		# trim blanks
+		# if anything other than integer characters
+			# return false
+		# else
+			# convert to integer
+		# ....
+	# elseif an integer
+		# return it, which may be zero
+	# else
+		# return false
+	# ....
+	# return the result
+# end function
+
+### Integer Range - true when a value is in the 'from' and 'to' range.
+	# if X is an  invalid integer or integer string
+		# result is false
+	# else
+		# since this is used only internally, integers or integer string values are assummed
+		# if x >= from and <= to,
+	# ....
+	# return result
+# end function
+
+### Julian Value - convert a date to Julian integer without the time block.
+	# if a real date is given
+		# make the date into YMD array
+		# convert to Julian days from date (m, d, y)
+	# else
+		# return false
+	# ....
+	# return result
+# end function
+
+### Mon Year - format a date as 'mon year' like Mar 2005.
+	# get a ymd array
+	# the month string and year
+	# return the result
+# end function
+
+### Null Date - true when what is passed is null.
+	# return true when the item passed is null
+# end function
+
+### Return Result - go up one level in the depth and return the given result.
+	# go up one level
+	# if at  depth zero  we are where the first date_math function was called
+		# reset globals to a fresh start
+	# ....
+	# return result
+# end function
+
+### Set Error Message - set an error message in the public error variable.
+	# get the call stack
+	# if the 'goback' stack has the desired entry - either 1 , 2 or 3 back
+		# return the name of the 'goback' function
+	# else
+		# error came from the main function
+	# ....
+	# record the error in public variable
+	# if at depth 1 - the function was called from your script
+		# reset variables
+		# if throwing exceptions
+			# throw the exception
+		# ....
+	# ....
+	# always return false
+# end function
+
+### Set Invalid Date Message in the public variable  for the lastError.
+	# build and return the message
+# end function
+
+### Set Invalid Day Of Week Message in the public variable  for the lastError.
+	# build and return the message
+# end function
+
+### Set Invalid Integer Message in the public variable  for the lastError.
+	# build and return the invalid integer message
+# end function
+
+### Set An Invalid Message in the public variable  for the lastError.
+	# set the error message and the name of the function being called.
+# end function
+
+### String of Digits Only - returns only digits 0-9 as a string which may have leading zeros.
+	# start with a blank result
+	# if an integer is given
+		# cast it as a string
+	# elseif a string is given
+		# loop thru the string
+			# if the character is a digit 0-9,
+				# retain it
+			# ....
+		# <---
+	 # else
+		# error: neither a string nor integer
+	# ....
+	# return the result
+# end function
+
+### Time Block Value - return the integer value in seconds since midnight of a time block.
+	# if other than blank or null and a valid time
+		# AM and PM need to be upper case
+		# break out the optional AM PM
+		# break out hours minutes and seconds
+		# compute hours as seconds
+		# add each minute as 60 seconds
+		# if any seconds
+			# add them to the result
+		# ....
+		# if PM is set
+			# add 43200 seconds (12*60*60)
+		# ....
+	# else return zero
+		# return blank
+	# ....
+	# return the result
+# end function
+
+### Valid Format - return a valid format string.
+	# if theformat string passed is null
+		# use the default format
+	# else
+		# convert format string to lower case
+		# replace dd, mm, yy yyyy with just one of each
+		# if format string does not have exactly one each of d m y (chr 100, 109, 121)
+			# revert to the default format
+		# ....
+	#....
+	# return a good format string
+# end function
+
+### Valid Time Block - return the time block when it is valid.
+	# add to the depth count
+	# assume it is valid
+	# remove any leading and trailing blanks
+	# if blank or null
+		# it is not invalid
+	# elseif any character is not in the character set for time
+		# it is not invalid
+	# else
+		# separate the optional AM PM
+		# if more than two elements
+			# it is not valid
+		# ....
+		# separate hours minutes and seconds
+		# if no minutes
+			# it is not invalid
+		# elseif minutes outside the range of 0-59
+			# it is not invalid
+		# elseif two parts to the time block - should have AM or PM
+			# if hours outside 0 - 12
+				# it is not invalid
+			# elseif AM PM is not exactly 2 haracters long
+				# it is not valid
+			# elseif not either AM or PM
+				# it is not valid
+			# ....
+		# elseif hours outside 0-23
+			# it is not invalid
+		# ....
+		# if seconds are present
+			# if outside the range of 0-59
+				# it is not invalid
+			# ....
+		# ....
+	# ....
+	# if valid
+		# return the time block
+	# else
+		# enter an error message and return false
+	# ....
+	# return the result
+# end function
+
+# end class

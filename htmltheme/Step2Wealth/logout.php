@@ -1,0 +1,9 @@
+<?php 
+require_once("includes/session.php"); 
+require_once("includes/functions.php");
+?>
+<?php	
+    $session->Memberlogout();
+    redirect_JS("login.php");
+    die();
+?>

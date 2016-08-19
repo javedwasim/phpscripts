@@ -1,0 +1,28 @@
+/*
+*
+*
+* By IS Develpoer
+*
+*
+*/
+.display-none{ display: none;}
+.cs_height{ height: 290px;}
+.cs_height ul.mailbox-list li a, ul.h-list li a { font-size: 16px; padding: 5px 0px; }
+.p-img{ width:50px; border: 1px #349FC6 solid; margin-top: 3px;}
+.mt-15{ margin-top: 15px;}
+.text-12{ font-size: 12px;}
+.text-60{ font-size:55px !important;}
+.text-16{ font-size:16px !important;}
+.text-24{ font-size:24px !important;}
+.text-gray{ color: #CCC;}
+.pos_relative{ position: relative;}
+#search_laoder{position:absolute; text-align: center; z-index:9999; background:#FFF;width: 100%; padding: 10% 0 30%;opacity:0.6 }
+/*input [type='text']:focus{ border: 1px solid red !important}*/
+.bigmenu_dup a{ min-width: 60px;}
+.bigmenu_dup h5{ margin-top: 0;}
+.bigmenu_dup a i{font-size:33px;}
+.btn-fb{background:#547ECA;  color: #FFF;}
+.btn-fb:hover{  color: #FFF;background: #395B9B;}
+.btn-fb:active{color: #FFF}
+.btn-fb:focus{color: #FFF}
+.error_field{ border: 1px solid red !important;}

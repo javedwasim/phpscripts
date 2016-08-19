@@ -1,0 +1,8 @@
+Hostgator FTP
+FTP Server: ftp.internet-experts-live.co.uk
+FTP Username: 1mobil-e@internet-experts-live.co.uk
+FTP PW: KhuramPW20160712
+
+FTP & explicit FTPS port: 21
+
+

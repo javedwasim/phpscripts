@@ -1,0 +1,97 @@
+TABLE2ARR USER GUIDE
+
+Last modified: 06/24/2006
+PHP class, creates HTML array from HTML tables.
+Copyright (C) 2006 Wojtek Jarz&#281;cki (admin_at_lottocad_dot_pl)
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+GNU home page: http://www.gnu.org
+
+GENERAL DESCRIPTION
+
+This class fast and easy create two dimmensional array from html tables. 
+Cells values is automatically translated from UTF-8 charset to ascii codes. 
+
+USAGE
+
+CREATING CLASS
+
+$classref = new table2arr($htmlstring,$colspanmode=False,$readtableindex=-1)
+
+Parameters meanings:
+
+- $htmlstring (required)
+Value containing string with html page content.
+
+- $colspanmode (optional) default value = False
+Value for insert to array offset equal collspan value;
+
+$readtableindex (optional) default value = -1
+- $size
+
+OUTPUTTING RESULTS
+
+Class returns the two dimensional array. First dimension is tabel rows and second dimension is table cells.
+
+Available Vars :
+----------------
+$classref->cells         output array with current table content array
+----------------
+example :
+
+    [13] => Array (row index)
+        (
+            [0] => 13              |
+            [1] => Inter - Messina |
+            [2] => 3-0             |
+            [3] =>                 |
+            [4] =>                 |
+            [5] =>                 | (cells index and content)
+        )
+
+    [14] => Array
+        (
+            [0] => 14
+            [1] => Barcelona - Real Madrid
+            [2] => 1-1
+            [3] =>
+            [4] =>
+            [5] =>
+---------------------            
+$classref->tablecount    tables counter (integer value)
+---------------------
+$classref->table         all tables array with table properties and full html table text with cells :
+---------------------
+example :
+
+    [94] => Array    (table index)
+        (
+            ["parent"]=> true   (table is parent for another table)
+            ["level"] => 3      (table level /table in table/ root level=1)
+            ["begin"] => 65562  (begin inex html string) 
+            ["len"]   => 252    (length of table)
+            ["content"] => <table width="100%" cellpadding="0" cellspacing="0">
+<tr align="center"> ......</tr></table>
+        )
+        
+
+FILES :
+
+table2arr.php             class file
+table2arr.userguide.txt   this file
+example.php               example file
+example_parent.php        example file
+        
+enjoj
+--
+Wojtek Jarzecki
+(admin_at_lottocad_dot_pl)        

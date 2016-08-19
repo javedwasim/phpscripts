@@ -1,0 +1,389 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Generator" content="Serif WebPlus X5 (13.0.3.029)">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">
+<title>Home</title>
+<style type="text/css">
+body {margin: 0px; padding: 0px;}
+.Body-P
+{
+    margin:0.0px 0.0px 0.0px 0.0px; text-align:center; font-weight:400;
+}
+.Body-P-P0
+{
+    margin:0.0px 0.0px 0.0px 0.0px; text-align:left; font-weight:400;
+}
+.Body-C
+{
+    font-family:"Verdana", sans-serif; font-weight:700; font-size:15.0px; line-height:1.20em;
+}
+.Body-C-C0
+{
+    font-family:"Verdana", sans-serif; font-size:15.0px; line-height:1.20em;
+}
+</style>
+</head>
+
+<body text="#000000" style="background-color:#ffffff; text-align:center; height:5800px;">
+<div style="background-color:transparent;text-align:left;margin-left:auto;margin-right:auto;position:relative;width:850px;height:5800px;">
+<div id="txt_1" style="position:absolute;left:0px;top:0px;width:850px;height:5726px;overflow:hidden;">
+<p class="Body-P"><span class="Body-C">Date_Math_ClassA.php</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">This class has 67 date related functions. Dates can be outside the Linux date() range
+    of 1970-<wbr> 2039.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Date range for this class is from the year 0032 A.D. to 9999 A.D.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">USE:</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">require_once &lt;path / Date_Math_ClassA.php&gt;;</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">$dt = new date_math_class;</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Documentation and examples are found in files</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Date_Math_Class_TestA.php and</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Date_Math_ClassA.php.pseudo.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Copyright (C) 2014 Software Installation Services, Inc.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Author: Bob Wedwick, Phoenix, AZ 602-<wbr>449-<wbr>8552 bob at wedwick dot com.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">This program is free software: you can redistribute it or modify it under the terms
+    of the GNU General Public License as published by the Free Software Foundation, either
+    version 3 of the License or any later version.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">This program is distributed in the hope that it will be useful,</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">See http://www.gnu.org/licenses/licenses.en.html for a copy of the GNU General Public
+    License.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">This class operates by default on dates in string y-<wbr>m-<wbr>d format (y= year, m= month,
+    d=day) as used in mySql; however you may opt for input and output formats to be different,
+    and you can change the default output date format.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Input dates as function parameters may be formatted as strings: y-<wbr>m-<wbr>d, y/m/d, y.m.d,
+    m-<wbr>d-<wbr>y, m/d/y, m.d.y</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> where &#39;y&#39; is 4 digits (leading zeros for years before 1000), &#39;m&#39; and &#39;d&#39; may be
+    1 or 2 digits.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Example: AddDays(2, &#39;2013-<wbr>04-<wbr>15&#39;, &#39;y/m/d&#39;) means 2 days are added to April 15, 2014
+    and output</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> is formatted as y/m/d.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Also supported is ymd format as a string or integer for input which must be</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> &nbsp;exactly 8 digits: 4-<wbr>digit year and 2-<wbr>digit month and 2-<wbr>digit day.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Output date formats supported include those above as well as d-<wbr>m-<wbr>y by including an
+    optional string parameter in the function call. Also included are dmy, mdy and ymd
+    with exactly 8 digits. Examples: &#39;m/d/y&#39; &#39;ymd&#39;</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Note the &#39;d-<wbr>m-<wbr>y&#39; format is not supported in the input date formats.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Null or blank output date formats revert to the default format as do any other formats
+    that are</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> &nbsp;not recognized. Thus null, blank, or unrecognized formats do not generate errors.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Formatting strings are not case sensitive.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Input and output formats do not have to be the same. Thus functions can be</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> used to convert date formats from one to another.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">For functions expecting an integer value as an input parameter, it may be</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> either an integer or string with or without + or -<wbr> signs that evaluates to an integer.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">When the public variable $useTime = false (the default),</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> time blocks are not considered for calculations and are removed from the output.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">When the public variable $useTime = true,</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> The input date string may have an optional time component which is preserved and
+    returned.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Time blocks are used in many date comparisons where time may make a difference.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Any dates submitted without a valid time block are set to 00:00 (midnight).</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Null and blank time blocks are set to the current Linux local time.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Date comparisons using time blocks operate on 24 hours (86400 seconds) to make one
+    day.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Thus 2012-<wbr>07-<wbr>08 09:00:00 versus 2012-<wbr>07-<wbr>09 08:59:59 is still the same day</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> likewise 2012-<wbr>07-<wbr>08 09:00 versus 2012-<wbr>07-<wbr>07 09:01.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> When time blocks are not used, these entries result in different days.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Public variables for months, days of the week and 1st day of the weekmake it easy
+    to change languages.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">You can change the abbreviations for month and day of the week in public variables.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">When the public variable $exceptions = true, an error throws an exception instead
+    of returning</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> to the calling script with &#39;false&#39; result.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Otherwise functions return a boolean false (result === false) whenever invalid input
+    is passed</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> and should be explicitly tested by using ===.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Some functions may return zero which is different from the boolean false.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Null and blank dates are valid for input in selected functions where replacing them
+    with the</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> current date and time makes sense.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">When internal date calculations result in a non-<wbr>existent date, such as April 31,
+    the result</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> is reduced to the last valid day of the month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Refer to the PHP script Date_Math_Class_Test.php for examples of how these functions</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> can be used. If the test script is run via the console, the results of various functions
+    are</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> echoed to the console.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">This class was written such that the logical flow of each function is available in</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> pseudo code form in a text file Date_Math_Class.php.pseudo.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Naming convention: all functions begin with a capital letter;</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> all variables begin with $ and lower case first letter.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">An inherant flaw exists with julian dates where years like 1700, 1800 and 1900 are
+    not leap years</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> yet there is a PHP julian value for Feb 29 in those years. If you work with dates
+    that span Feb 29</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> in a non-<wbr>leap year, this date math class can render results that are off by one
+    day.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> Example: adding 2 days to 1900-<wbr>02-<wbr>28 (jd 2415091) renders an invalid result of</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> 1900-<wbr>03-<wbr>01 (jd 2415093) since jd 2415092 is the non-<wbr>existant date of 1900-<wbr>02-<wbr>29.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">The depth count variable keeps track of how many internal function calls are active</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> and depth 1 serves to identify which function was called from the calling program.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"> </span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">&nbsp;</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">Public functions included in this class are:</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Add Days -<wbr> add (or subtract when negative) days to the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function AddDays($days=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Add Months -<wbr> add (or subtract when negative) months to the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function AddMonths($months=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Add Weeks -<wbr> add (or subtract when negative) weeks to the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function AddWeeks($weeks=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Add Years -<wbr> add (or subtract when negative) years to the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function AddYears($years=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Age In Years -<wbr> return the absolute age in years for one date versus another.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function AgeInYears($date1=null, $date2=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Date Is Valid -<wbr> return the valid date. Blank and null default to now.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DateIsValid($date=null, $fmt=null, $which=1)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Date To Julian -<wbr> convert a date to integer julian days. Optional time block.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DateToJulian($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Day Month Year -<wbr> return the date formatted as day month year like 30 Oct 2013.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DayMonthYear($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Day Of The Month -<wbr> return the numeric day of the month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DayOfTheMonth($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Day Of The Week -<wbr> return the three-<wbr>character short form for the day of the week
+    for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DayOfTheWeek($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Day Of The Year -<wbr> return the numeric day of the year for the given date. 1-<wbr>365
+    or 366.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DayOfTheYear($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Day Of The Year To Date -<wbr> convert the day of the year to a date in the given
+    year.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DayOfTheYearToDate($dayOfYear = 0, $year = null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Difference In Days -<wbr> return the difference between two dates in completed days
+    based on Julian days.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DifferenceInDays($date1=null, $date2=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Difference In Weeks -<wbr> return the difference in complete weeks for the dates given,
+    not partial weeks.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DifferenceInWeeks($date1=null, $date2=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Difference In Years -<wbr> return the difference between two dates in years, may be
+    negative.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DifferenceInYears($date1= null, $date2= null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Dow Month Day Year -<wbr> return a date formatted as day-<wbr>of-<wbr>week, month, day, and
+    year.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function DowMonthDayYear($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Next Month -<wbr> return the end of next month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfNextMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Next Week-<wbr> return the end of next week.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfNextWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Next Year -<wbr> return the end of next year.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfNextYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Prior Month -<wbr> return the end of the prior month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfPriorMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Prior Week-<wbr> return the end of the prior week.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfPriorWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of Prior Year -<wbr> return the end of the prior year.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfPriorYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of This Month -<wbr> return the end of the month for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfThisMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of This Week -<wbr> return the end of the week for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfThisWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### End Of This Year -<wbr> return the end of the year for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function EndOfThisYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Given Month -<wbr> return the next first of the month for the given month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfGivenMonth($mon=null, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Next Month -<wbr> return the 1st of next month after the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfNextMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First of Next Week -<wbr> return the 1st of next week after the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfNextWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Next Year -<wbr> return the 1st of next year after the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfNextYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Prior Month -<wbr> return the 1st of prior month from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfPriorMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Prior Week-<wbr> return the 1st of prior week from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfPriorWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of Prior Year -<wbr> return the 1st of prior year from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfPriorYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of This Month -<wbr> return 1st of the month for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfThisMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of This Week -<wbr> return 1st of the week for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfThisWeek($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### First Of This Year -<wbr> return 1st of the year for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function FirstOfThisYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Get Last Error -<wbr> return the last error message.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function GetLastError()</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Greater Date -<wbr> return the greater of two dates ignoring any null or blank dates.
+    At least one date must be provided.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function GreaterDate($date1=null, $date2=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Is A Date -<wbr> return true when the given date looks like a date. Null and blank
+    are not dates.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function IsADate($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Is The First -<wbr> true when the given date is the first of the month, zero when
+    not, false when invalid date is sent.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function IsTheFirst($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Julian To Date -<wbr> convert an integer or integer string to a date string.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function JulianToDate($value=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Last Dow For A Month -<wbr> return the last day of the week for the given date -<wbr> for
+    example: find the last Friday of a month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function LastDowForAMonth($dayOfWeek, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Lesser Date -<wbr> return the lesser of two dates ignoring any null or blank dates.
+    At least one date must be passed.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function LesserDate($date1=null, $date2=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Maximum Date -<wbr> the maximum of two dates. Null and blank dates default to now.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function MaximumDate($date1=null, $date2=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Minimum Date -<wbr> the lesser of two dates. Null and blank dates default to now.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function MinimumDate($date1=null, $date2=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Month Day Year -<wbr> return a date formatted as &#39;month day, year&#39; like Mar 3, 2005.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function MonthDayYear($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Month Number -<wbr> the integer month number for the named month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function MonthNumber($mon=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Month Str -<wbr> return the 3-<wbr>char string for the month of the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function MonthStr($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### N Days Before End Of The Month -<wbr> return N days before the end of the month for
+    the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NDaysBeforeEndOfTheMonth($n=0, $date = null, $fmt= null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Next Day Of The Week -<wbr> return the next date for a named day of the week when
+    given date is not same as the day sent.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NextDayOfTheWeek($dayOfWeek, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Next First Of The Month -<wbr> the next first of the month if the given date is not
+    the 1st.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NextFirstOfTheMonth($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Next First Of The Year -<wbr> the next first of the year if the given date is not
+    the 1st.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NextFirstOfTheYear($date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Next Nth Day Of The Month -<wbr> the next Nth day of the month after the given date,
+    e.g. 3rd Tuesday.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NextNthDayOfTheMonth($n=1, $dayOfWeek, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Next Nth Of The Month -<wbr> advance as needed to the next Nth day of a month limited
+    to 1-<wbr>31.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NextNthOfTheMonth($n=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Nth Of The Month -<wbr> return Nth day of the month for the given date limited to
+    1-<wbr>31.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NthOfTheMonth($n=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Number Of Days In A Month -<wbr> return a count of the number of days in a month.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NumberOfDaysInAMonth($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Numeric Day Of The Week -<wbr> return the numeric day of the week 0-<wbr>6 based on the
+    public day array.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NumericDayOfTheWeek($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Numeric Month -<wbr> return the numeric month (1-<wbr>12) for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NumericMonth($date = null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Numeric Year -<wbr> return the numeric year for the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function NumericYear($date = null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Prior Day Of The Week -<wbr> return the date for the prior day of the week from the
+    given date. Back up, if needed.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function PriorDayOfTheWeek($dayOfWeek, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Subtract Days -<wbr> subtract absolute number of days from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function SubtractDays($days=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Subtract Months -<wbr> subtract absolute number of months from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function SubtractMonths($months=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Subtract Weeks -<wbr> subtract absolute number of weeks from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function SubtractWeeks($weeks=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Subtract Years -<wbr> subtract absolute number of years from the given date.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function SubtractYears($years=0, $date=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Use Exceptions -<wbr> opt to set exceptions on or off and return the state.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function UseExceptions($state=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Use Time Blocks -<wbr> opt to set using time blocks on or off and return the state.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function UseTimeBlocks($state=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Week Number -<wbr> return the week number (0-<wbr>53) of the year, weeks begin on the first
+    day in the day array.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function WeekNumber($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Ymd -<wbr> convert a date to an array of year, month, day from a date. Optional time
+    block.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function Ymd($date=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Ymd Array To Date -<wbr> convert a YMD array to a date string.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function YmdArrayToDate($ymdArray=null, $fmt=null)</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0"><br></span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">### Ymd String To Date -<wbr> convert a string in the form of yyyymmdd to a date. Optional
+    time block.</span></p>
+<p class="Body-P-P0"><span class="Body-C-C0">function YmdStringToDate($yyyymmdd=null, $fmt=null)</span></p>
+</div>
+</div>
+</body>
+</html>

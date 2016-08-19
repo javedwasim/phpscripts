@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Documentatoin -- class: mysqlForm</title>
+<style type="text/css">
+body{margin: 0px; padding: 0px; color:666666;background-color: #eeeeff;
+    font-family:verdana,monospace; font-size: 12px;}
+    
+h1{background-color: #000066 ;color: #5555ff; font-family:sans-serif;text-align:center;}
+.code{color:#000000;font-family:"Courier New"}
+</style>
+</head>
+<body>
+<h1>Documentatoin -- class: mysqlForm </h1>
+<ul type="square">
+<li><b><u>Class : mysqlForm </u></b>
+<ol>
+<li>This class can print a mysql result resource and Create HTML form for MySql table.</li>
+<li>Initialization : $obj=new mysqlForm($linkresource,$databasename)</li>
+<li>Argument 1 : The link.such as :<br>
+    <span class="code">$link=mysql_connect('localhost', 'user', 'password');</span></li>
+<li>Argument 2 : The table name. Suppose we, will work with 'employee' table.</li>
+<li><b>Example:</b> Now this class can be initialized as :<span class="code"> $obj=new mysqlForm($link,'employee');</span> </li>
+<li>Form fields and there labels are organized in table.</li>
+</ol></li>
+<li><b><u> Method : printResult($result,$format="border=1")</u></b>
+	<ol>
+	<li>This method prints a result source as table.</li>
+	<li>Argument 1 : the result resource. such as : $result</li>
+	<li>Argument 2 : (Optional) format of table.</li>
+	<li><b>Example:</b><span class="code"> $obj-&gt;printResult($result,"border=1,cellpadding=2")</span></li>
+	<li> Column name used as table header.(see test.php for details)</li>
+	</ol></li>
+<li><b><u> Method : printForm($table,$action,$skip="-1")</u></b>
+	<ol>
+	<li>This method creats an HTML form for an stracture of MySql table</li>
+	<li>Argument 1 : Table name, for which the from will be created.</li>
+	<li>Argument 2 : Action attrebute of form.</li>
+	<li>Argument 3 : (Optional)Index of columns to skip. For whom form field is not required.</li>
+	<li>This skip index list should be Comma separated string format. Such as : "0,4,6" <br>
+         it skips 0,4 and 6 indexd columns of table and dont create form field for them.</li>
+	<li>The value of 'method' attrebute of form is POST.</li>
+	<li><b>Name of field :</b>All fields of form will be named and labeled as relevent column name of MySql table</li>
+	<li><b>Length : </b>Length of a field is :(length of column datatype+5).<br> Such as, for varchar(30) column, field size will be 35. </li>
+	<li>Default field type is <b>text.</b></li>
+	<li>If length is more then 50, the field will be <b> text area.</b></li>
+	<li>If the column name of table is password, the field will be <b> password.</b></li>
+	<li>For ENUM columns, <b>&lt;select&gt;</b> field will be created containing its values.</li>
+	<li>When submitted, form will submit to 2nd argumented value.</li>
+	<li><b>Example :</b><span class="code"> $obj->printForm("user","insert.php",'0,3');</span> <br>
+	It creates a form for all fields of 'user' table without 0 and 3 indexed column.<br>
+	When submitted, it will submit to 'insert.php' file.  
+	</li></ol>
+</li>	
+<li><b><u>To test the example : 'test.php'</u></b>
+<ol>  
+<li> Execute the queryes in mysqlForm.sql file</li>
+<li> Look at the values in conn.php file</li>
+<li> Run the example file  'test.php'. It explains how to use this class.</li>
+<li> Insert a new user data (if you are testing with your won database and table, you have to edit 'conn.php' and 'insert.php').</li>
+</ol></li>
+
+</ul>
+
+</body>
+</html>

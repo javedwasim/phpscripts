@@ -1,0 +1,12 @@
+<?
+include ("generator.class.php");
+
+//$array_holder  is an array with its keys as the column fields and the values those are posted by the user... you can add you table fields to this array and assign the value posted by the user. If the user did not select any option then the value should be "" i.e. <option value = ""> SELECT </option>
+$array_holder = array();
+$array_holder['type'] = $type;
+$array_holder['bedroom'] = $bedrooms;
+$array_holder['proj_tenant'] = $project;
+$array_holder['area'] = $area;
+$array_holder['range'] = $range;
+$sql = mysql_query(generator::guerygen("YOUR_MYSQL_TABLE_NAME_TO_PERFORM_SEARCH", $array_holder));
+?>

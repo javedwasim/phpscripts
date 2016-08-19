@@ -1,0 +1,44 @@
+<script>    
+ function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");     
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),            
+	results = regex.exec(location.search);        
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));     
+	}   
+
+
+	
+	function setSource(mysrc) { 
+	setTimeout(function() { 
+	if (mysrc != "") {         
+	document.getElementById('iframe_view_box').style.display = "block";        
+	document.getElementById('img_container').style.display = "none";        
+	document.getElementById('iframe_view').src = mysrc;             }         }, 2000);     } 	
+
+	
+	function showmessaage(msg) {  
+	setTimeout(function() {   
+	if (msg != "") { 		
+	$("#img_container h5").html(msg);  
+	$("#img_container img").hide(); 		
+	}         }, 2000);     }     
+	var url = getParameterByName('url');  
+  	
+	
+	if(url !=""){     setSource(url) 	}
+	else{ 	 			var msg = getParameterByName('msg'); 
+			if(msg !=""){ 				
+			showmessaage(msg) 			}else{ 				 			} 	} 
+</script>
+////////////////for new window/////////////////////////
+<script>    
+ function getParameterByName(name) {
+	name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");     
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),            
+	results = regex.exec(location.search);        
+	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));     
+	}   
+
+	var url = getParameterByName('url'); 
+	window.open(url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+</script>	

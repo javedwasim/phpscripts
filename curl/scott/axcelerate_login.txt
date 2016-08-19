@@ -1,0 +1,38 @@
+Infusionsoft:
+
+m396.infusionsoft.com
+
+healthpriority75@gmail.com
+
+Khuram22
+
+"m396:m396:i:86687e626e0322b8b56fb95e16659c8a:This is for m396.infusionsoft.com"
+
+Amazon:
+
+/************************************************************************
+    * REQUIRED
+    *
+    * Access Key ID and Secret Acess Key ID, obtained from:
+    * http://aws.amazon.com
+    ***********************************************************************/
+    define('AWS_ACCESS_KEY_ID', 'AKIAJPRVRIQHVKWP5EIA');
+    define('AWS_SECRET_ACCESS_KEY', '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');
+
+   /************************************************************************
+    * REQUIRED
+    *
+    * All MWS requests must contain a User-Agent header. The application
+    * name and version defined below are used in creating this value.
+    ***********************************************************************/
+    define('APPLICATION_NAME', 'OrderPuller');
+    define('APPLICATION_VERSION', '1.0');
+
+   /************************************************************************
+    * REQUIRED
+    *
+    * All MWS requests must contain the seller's merchant ID and
+    * marketplace ID.
+    ***********************************************************************/
+    define ('MERCHANT_ID', 'ANXPRTZKYRJ44');
+    define ('MARKETPLACE_ID', 'ATVPDKIKX0DER');

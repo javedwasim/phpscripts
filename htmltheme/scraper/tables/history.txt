@@ -1,0 +1,11 @@
+x  2006-04-10 create class.
+x  2006-04-19 repaired bug for multiple table about more and more 
+              smaller quantities of cells. Data in cells stayed 
+              from larger cells. Added initialise array in function
+              getcells , add this line for repaired bug finded and
+              thanks for Braukmann, Juergen.
+x  2006-04-24 add table "parent" properties for output properties 
+              table array, "parent" is true if table is parent 
+              for another table. 
+x  2006-04-27 Correct bug for multi extract problem. 
+              Thanks for  Daniel Sepeur.

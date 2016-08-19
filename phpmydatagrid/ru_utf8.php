@@ -1,0 +1,40 @@
+
+			case 'russian': case 'ru' :
+				// This translation thanks to Stanislav Umansky from Russia
+				$this->message=array(
+					'cancel'       => 'отмена',
+					'close' 	   => 'закрыть',
+					'save'         => 'сохранить',
+					'saving'       => 'сохраняю . . .',
+					'loading'      => 'загружаю . . .',
+					'edit'         => 'изменить',
+					'delete'       => 'удалить',
+					'add'          => 'добавить',
+					'view'    	   => 'просмотреть',
+					'addRecord'    => 'добавить запись',
+					'edtRecord'    => 'изменить запись',
+					'chkRecord'	   => 'проверить запись',
+					'false'        => 'нет',
+					'true'         => 'да',
+					'prev'         => 'назад',
+					'next'         => 'вперед',
+					'confirm'      => 'подтвердить',
+					'search'       => 'поиск',
+					'resetSearch'  => 'сбросить поиск',
+					'doublefield'  => 'продублировать поле',
+					'norecords'    => 'нет записей',
+					'errcode'      => 'код ошибки',
+					'noinsearch'   => 'не входит в поиск...',
+					'noformdef'   => 'для использования функции "checkable" определите имя формы с использованием функции Form',
+					'cannotadd'    => 'не могу добавить',
+					'cannotedit'   => 'не могу изменить',
+					'cannotsearch' => 'не могу найти',
+					'cannotdel'    => 'не могу удалить',
+					'sqlerror'     => 'ошибка в SQL-выражении',
+					'errormsg'     => 'ошибка:',
+					'errorscript'  => 'ошибка в SQL-скрипте',
+					'display'      => 'отображение',
+					'to'           => 'до',
+					'of'           => 'из'
+				);
+				break; 

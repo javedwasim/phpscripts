@@ -1,0 +1,133 @@
+Dec 31, 2014
+The samples below were obtained by running the test script Date_Math_Class_TestA.php which is included
+in this package. The responses from the date math class follow the "=>' symbol when there is a good
+response, or the "ERR:" symbol when an error is found.
+
+<----- Testing NOT using exceptions, NOT using time blocks ----->
+
+<----- Testing Add Days ----->
+Add 10 days to now => 2015-01-10
+Add '0' days to 2012-03-24 => 2012-03-24
+Add 9 days to leap year 2012-02-24 => 2012-03-04
+Add 9 days to 20110224 as mdy => 03052011
+Add '-9' days to 2011-03-01 => 2011-02-20
+Add -9 days in a leap year to 2012-03-01 => 2012-02-21
+Add 1 day to 1900-02-28 => 1900-03-01
+Add 15 days to 2011-02-24 as m/d/y => 03/11/2011
+add 9 days to 2011-02-24 as m/d/y => 03/05/2011
+add 9 days to 2011-02-24 as dmy => 05032011
+Add 19 days to 20110224  => 2011-03-15
+Add '+19' days to 3088-02-25 => 3088-03-15
+..... Show ERRORS .....
+2011-13-01 ERR: Invalid date <2011-13-01> passed to function 'AddDays'
+19.2 days ERR: Invalid number of days <19.2> passed to function 'AddDays'
+2011-11-32 ERR: Invalid date <2011-11-32> passed to function 'AddDays'
+0011-11-03 ERR: Invalid date <0011-11-03> passed to function 'AddDays'
+2011-02-29 ERR: Invalid date <2011-02-29> passed to function 'AddDays'
+20111301 ERR: Invalid date <20111301> passed to function 'AddDays'
+2011-5-26 12:34:56 ERR: Invalid number of days <two> passed to function 'AddDays'
+
+<----- Testing Add Months ----->
+Add '+1' month in leap year to 2012-01-31 05:10 as m-d-y => 02-29-2012
+Add 12 months to 2011-01-31 4:45:00 AM as m/d/y => 01/31/2012
+Add 1 month to 2011-01-31 4:46:00 AM as m/d/y => 02/28/2011
+Add -1 month to 2011-01-31 4:47:00 AM as m/d/y => 12/31/2010
+Add 21 months to 2012-01-31 => 2013-10-31
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'AddMonths'
+Invalid months ERR: Invalid number of months <ten> passed to function 'AddMonths'
+20111301 ERR: Invalid date <20111301> passed to function 'AddMonths'
+
+<----- Testing Add Weeks ----->
+Add 1 week to 2012-02-29 4:03:05 AM as m-d-y => 03-07-2012
+Add 1 week to 2011-02-23 4:13:05 PM as m-d-y => 03-02-2011
+Add -1 week to 2012-02-29 4:23:05 as y/m/d => 2012/02/22
+Add '13' weeks to 2012-01-31 => 2012-05-01
+Add 14 weeks to 20120131 => 2012-05-08
+Add '002' weeks to now => 2015-01-14
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'AddWeeks'
+2011-5-26 12:34:56 ERR: Invalid number of weeks <six6> passed to function 'AddWeeks'
+20111301 ERR: Invalid date <20111301> passed to function 'AddWeeks'
+Add 1 week to 2011-02-29 ERR: Invalid date <2011-02-29> passed to function 'AddWeeks'
+
+<----- Testing Add Years ----->
+Add 1 year in leap year to 02-29-2012 5:6:7 as m/d/y => 02/28/2013
+Add 1 year to 02-28-2011 as m/d/y => 02/28/2012
+Add -2 years to 02-29-2012 1:02:03 PM as m/d/y => 02/28/2010
+Add 28 years to leap year 2012.02.29 08:00 => 2040-02-29
+Add '31' years to leap year 2012-02-29 2:3:4 AM => 2043-02-28
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'AddYears'
+20111301 ERR: Invalid date <20111301> passed to function 'AddYears'
+2011-5-26 12:34:56 ERR: Invalid number of years <two> passed to function 'AddYears'
+
+<----- Testing Age In Years ----->
+Age between 2002-01-04 and now => 12
+Age between 2002-01-04 and 2013-1-4  => 11
+Age between 2002-01-04 and 20130103 => 10
+Age between 20130103 and 2002-01-04 => 10
+Age between 2011-5-26 12:34:56 and 2002-01-04 => 9
+..... Show ERRORS .....
+2000-14-01 and 2002-01-04 ERR: Invalid date <2000-14-01> passed to function 'AgeInYears'
+2002-01-04 and 2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'AgeInYears'
+20111301 ERR: Invalid date <20111301> passed to function 'AgeInYears'
+
+<----- Testing Date Is Valid ----->
+Valid date null => 2014-12-31
+Valid date blank => 2014-12-31
+Valid date 2000-1-01 as y/m/d => 2000/01/01
+Valid date 11/01/2000 => 2000-11-01
+Valid date 20020103 => 2002-01-03
+Valid date 2003.01.4 09:10:11 as m-d-y => 01-04-2003
+Valid date 2003/01/04 default format => 2003-01-04
+Valid date 2010-04-15 10:04:15 => 2010-04-15
+Valid date 2011-5-26 12:34:56 => 2011-05-26
+..... Show ERRORS .....
+1900-02-29 1900 was not a leap year ERR: Invalid date <1900-02-29> passed to function 'DateIsValid'
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'DateIsValid'
+2011-3-32 ERR: Invalid date <2011-3-32> passed to function 'DateIsValid'
+32/3/2011 ERR: Invalid date <32/3/2011> passed to function 'DateIsValid'
+20x0-1-2 ERR: Invalid date <20x0-1-2> passed to function 'DateIsValid'
+abcd ERR: Invalid date <abcd> passed to function 'DateIsValid'
+2000-Feb-01 ERR: Invalid date <2000-Feb-01> passed to function 'DateIsValid'
+20111301 ERR: Invalid date <20111301> passed to function 'DateIsValid'
+
+<----- Testing Date To Julian ----->
+Julian date for 2011-5-26 12:34:56 => 2455721
+**** PHP Julian allows for 1900-02-29 when 1900 is not a leap year
+Julian date for 19000228 => 2415091
+Julian date for 19000301 => 2415093
+Julian date for now => 2457036
+Julian date for 2012-01-01 1:2 pm => 2455941
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'DateToJulian'
+20111301 ERR: Invalid date <20111301> passed to function 'DateToJulian'
+
+<----- Testing Day Month Year ----->
+Day month year for now => 31 DEC 2014
+Day month year for 2011-5-26 12:34:56 => 26 MAY 2011
+Day month year for 2012-01-1 1:2 pm => 01 JAN 2012
+Day month year for 01/19/2012 => 19 JAN 2012
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'DayMonthYear'
+20111301 ERR: Invalid date <20111301> passed to function 'DayMonthYear'
+
+<----- Testing Day Of The Month ----->
+Day of month for now => 31
+Day of month for 2011-5-26 12:34:56 => 26
+Day of month for 2012-01-1 1:2 pm => 01
+Day of month for 01/19/2012 => 19
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'DayOfTheMonth'
+20111301 ERR: Invalid date <20111301> passed to function 'DayOfTheMonth'
+
+<----- Testing Day Of The Week ----->
+Day of week for 2012-1-1 => SUN
+Day of week for 2012-01-01 1:2 pm => SUN
+Day of week for 2011-5-26 12:34:56 => THU
+Day of week for now => WED
+Day of week for 01/19/2012 => THU
+..... Show ERRORS .....
+2000-14-01 ERR: Invalid date <2000-14-01> passed to function 'DayOfTheWeek'
+20111301 ERR: Invalid date <20111301> passed to function 'DayOfTheWeek'

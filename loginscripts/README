@@ -1,0 +1,189 @@
+// PHP Login Script Thing
+// Developed by Chad Smith
+// Web: http://mktgdept.com/
+// Download: http://mktgdept.com/php-login-script.zip
+// Support: http://posttopic.com/topic/php-login-script
+// Twitter: chadsmith
+// Google Talk: chad@mktgdept.com
+//
+// Copyright (C) 2008 Chad Smith
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Build: 20090107211851
+
+Several sites I am working on required some kind of authentication using PHP, but since the sites were entirely custom coded - and needed to be to serve their purpose - I was unable and unwilling to use a CMS just to have user registration and sign-ins.
+
+The enclosed code is a PHP class I came up with to enable secure logins on any site it's dropped into. Some configuration is required, but as you will see, it's fast, secure, easy to set up, and most of all gets the job done.
+
+This version uses PDO and SQLite3 to quickly read and write user information to an SQLite database, rather than requiring MySQL to be installed and setup.
+
+Here is what you need to get started using the script:
+
+Requirements
+- PHP5+
+	- PDO & PDO-SQLite enabled
+- Apache
+	- mod_rewrite enabled
+
+Installation
+- Save user.php in the root folder of your server and place users.db one directory above that (so it is not accessible from the web)
+
+Use the pages and css file provided for your signup, login, activation, and ... pages or create your own
+
+A) Use what we provided
+	- Copy change.php, login.php, manage.php, signup.php, and login.css from example to your root folder
+B) Make your own
+	- Add the contents of login.css to your css file and follow the usage instructions below
+
+Rename the filenames if desired, but remember what you change them too because they will need to be changed to your .htaccess file
+
+Configuration
+
+Open user.php in your favorite text editor and change any necessary settings in the $config array:
+
+	protected $config=array( // the settings
+		'username'=>array(
+			'min'=>4, // minumum username length allowed
+			'max'=>24 // maximum username length allowed
+		),
+		'password'=>array(
+			'min'=>6, // minumum password length allowed
+			'salt'=>'a bunch of random characters and symbols for security' // random characters for salting passwords & sessions
+		),
+		'pages'=>array(
+			'login'=>'login', // login page
+			'signup'=>'signup', // registration page
+			'change'=>'change', // change password page
+			'manage'=>'manage', // change email page
+			'activate'=>'activate' // activation page
+		),
+		'site'=>array(
+			'admin'=>'Chad Smith', // your name
+			'email'=>'chad@mktgdept.com', // address to send new account emails from
+			'name'=>'PHP Login Script', // site name to display in emails
+			'cookie'=>'mktgdept' // cookie name
+		)
+	);
+
+The sections that should be changed are to the right of 'salt'=>, 'admin'=>, 'email'=>, and 'name'=> as well as the page addresses:
+
+		'pages'=>array(
+			'login'=>'log-in', // login page
+			'signup'=>'register', // registration page
+			'manage'=>'change-email', // change email page
+			'change'=>'recover-password', // change password page
+			'activate'=>'activate-account' // activation page
+		),
+
+Be sure you only change what is on the right side, as the keys on the left are called later in the script.
+
+.htaccess Setup
+
+If you don't already have a .htaccess file in place, use the one provided in the example folder or add the important parts to the one you have
+
+###
+Options -Multiviews
+
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^login$ /login.php [L]
+RewriteRule ^signup$ /signup.php [L]
+RewriteRule ^manage$ /manage.php [L]
+RewriteRule ^change$ /change.php [L]
+RewriteRule ^change/([a-f0-9]{32})$ /change.php?key=$1 [L]
+RewriteRule ^activate/([a-f0-9]{32})$ /user.php?activate=$1 [L]
+
+RewriteRule ^logout$ /user.php?logout [L]
+###
+
+Be sure to keep Options -Multiviews in place if necessary and change the pagenames to what you set in $config. Example:
+
+###
+#Options -Multiviews ## not needed since page names are different from the file names
+
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^log-in$ /login.php [L]
+RewriteRule ^register$ /signup.php [L]
+RewriteRule ^change-email$ /manage.php [L]
+RewriteRule ^recover-password$ /change.php [L]
+RewriteRule ^recover-password/([a-f0-9]{32})$ /change.php?key=$1 [L]
+RewriteRule ^activate-account/([a-f0-9]{32})$ /user.php?activate=$1 [L]
+
+RewriteRule ^logout$ /user.php?logout [L]
+###
+
+Change the filenames (on the right side of the RewriteRule) if you used your own pages or renamed any of the files above.
+
+Basic Usage
+
+Simply add <?php require_once('user.php'); ?> to the top of any page where you want to use the script.
+
+This will allow you to see: 
+- if the user is logged in <?php if($user->logged_in()) ... ?>
+- if the user is logged out <?php if(!$user->logged_in()) ... ?>
+- the user name <?php echo $_SESSION['user']['name']; ?>
+- the user's email address <?php echo $_SESSION['user']['email']; ?>
+- the user's id <?php echo $_SESSION['user']['id']; ?>
+
+Or call <?php require_once('user.php'); $user->require_login(); ?> at the top of any page to require a login to access
+
+If you are making your own signup, login, and account pages, call the necessary forms using the following:
+- login form <?php $user->login_form(); ?>
+- registration form <?php $user->signup_form(); ?>
+- recover/change password form <?php $user->password_form(); ?>
+- change email form <?php $user->account_form(); ?> (you should probably require a login to access this page although it is not required)
+- link to /logout (whatever you have set in your .htaccess) to log out
+
+And that's all!
+
+Contents
+
+contrib
+	users.sql - SQL used to build database (reference only)
+example
+	.htaccess - .htaccess file (place in root or add contents to your own)
+	auth.php - example page that requires authentication
+	change.php - example change/recover password page
+	index.php - example index page
+	login.css - example stylesheet (place in root or add to your own stylesheet)
+	login.php - example login page
+	manage.php - example change email page (requires authentication)
+	signup.php - example registration page
+root
+	user.php - PHP login script thing
+CHANGELOG - list of version changes
+COPYING - license details
+README - the thing you're reading
+user.db - the database file (place on server above root)
+
+Features
+
+- Authentication using PHP and SQLite
+- Expiring nonces to deter spam and session hijacking
+- Salted passwords and sessions
+- Secured against SQL Injection
+- Built in change password, e-mail address, & password recovery
+- Account activation & user registration notification
+- Extendable using plugins
+- Valid XHTML 1.0 Strict
+
+Summary
+
+I chose to write my own class rather than using a pre-made one so I could fix all the bugs and security flaws of the scripts that already exist, and so there would be something that works with SQLite.
+
+Let me know if you come up with any bugs or questions.  Things are in the works to make the script extendable (with plugins and such) to add features such as user tracking and profiles.  The script as is provides a secure system of login, registration, and account management.  When finished, I plan to make an OpenID and MySQL version as well.

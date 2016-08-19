@@ -1,0 +1,10 @@
+Russian does work after several modifications:
+
+1) putAcutes() corrupts text - just return the passed var
+
+2) Had to add UTF8 after connection:
+
+mysql_query("SET character_set_connection=utf8");
+mysql_query("SET character_set_client=utf8");
+mysql_query("SET character_set_results=utf8");
+mysql_query("SET NAMES='utf8'");

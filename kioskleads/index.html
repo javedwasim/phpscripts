@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Form</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/custom/bootstrap.min.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap/css/form2.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+		<script src="js/html5.js"></script>
+	<![endif]-->
+    
+   <!--[if lt IE 9]>
+	<link rel="stylesheet" type="text/css" href="ie8-and-down.css" />
+	<style>.hero .hero-holder {
+		margin-left:-410px;
+	}
+	</style>
+    <![endif]-->
+    
+    <!--[if IE]>
+		<link rel="stylesheet" type="text/css" href="css/ie.css" />
+	<![endif]-->
+   
+ </head>
+
+<body>
+<div class=" container mtop">
+<div class="panel panel-default">
+        <div class="panel-heading">
+          <h3>Form</h3>
+        </div>
+        <div class="panel-body">
+         <div class="clearfix">
+          <div id="form2Box" class="col-lg-12">
+          	<form name="form2" id="form2" class="form-horizontal form-bordered" method="post" action="process.php">
+            <div class="form-group">
+               <div class="mtop">
+                <input type="text" id="firstname" name="firstname" placeholder="First Name" class="form-control" required />
+              </div>
+              <div class="mtop">
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name" class="form-control" required />
+              </div>
+            
+               <div class="mtop">
+                <input type="email" id="email" name="email" placeholder="Email" class="form-control" required />
+              </div>
+              <div class="mtop">
+                <input type="text" id="phone" name="phone" placeholder="Phone" class="form-control" required />
+              </div>
+           
+                <div class="mtop">
+                <input type="text" id="cellphone" name="cellphone" placeholder="Cell Phone" class="form-control" required />
+                </div>
+               <div class="mtop">
+            		<select name="timeTocontact" id="timeTocontact" class="form-control mb15" required>
+						    <option value="">Best Time to Contact </option>
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Evening">Evening</option>
+                    </select>
+            	</div>
+                <div class="mtop">
+            		<select name="agent" id="agent" class="form-control mb15" required>
+						    <option value="">Are you an Agent   </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            
+                    </select>
+            	</div>
+                <div class="mtop">
+            		<select name="interestinotherdevelopments" id="interestinotherdevelopments" 
+                    class="form-control mb15" required>
+						    <option value="">Interest in other developments  </option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                            
+                    </select>
+            	</div>
+           	<div class="mtop">
+               <select name="price" id="price" class="form-control mb15" required>
+								<option value="" selected="">Select Price Range</option>
+								<option value="$220,000's to $300,000">$220,000's to $300,000</option>
+                                <option value="$300,001 to $400,000">$300,001 to $400,000</option>
+                                <option value="$400,001 to $500,000">$400,001 to $500,000</option>
+                                <option value="$500,001 to $600,000">$500,001 to $600,000</option>
+                                <option value="$600,001 to $700,000">$600,001 to $700,000</option>
+                                <option value="$700,001 to $800,000">$700,001 to $800,000</option>
+                                <option value="$800,001 to $900,000">$800,001 to $900,000</option>
+                                <option value="$900,001 to $1,000,000">$900,001 to $1,000,000</option>
+                                <option value="$1,000,001 to $2,000,000">$1,000,001 to $2,000,000</option>
+                                <option value="$1,000,000 - $1,250,000">$1,000,000 - $1,250,000</option>
+                                <option value="$1,250,000 - $1,500,000">$1,250,000 - $1,500,000</option>
+                                <option value="$1,500,000 - $1,750,000"> $1,500,000 - $1,750,000</option>
+                                <option value=" $1,750,000 - $2,000,000"> $1,750,000 - $2,000,000</option>
+                                <option value=" $2,000,000 - $2,250,000"> $2,000,000 - $2,250,000</option>
+                                <option value="$2,250,000 - $2,500,000"> $2,250,000 - $2,500,000</option>
+                                <option value="$2,500,000 - Plus">$2,500,000 - Plus </option>
+
+                    </select>
+              </div>
+            <div class="mtop clearfix row">
+            <h4>Select Bedrooms</h4>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="Studio" /> <label>Studio</label>
+            </div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="1 Bedroom" /> <label>1 Bedroom</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="1 Bedroom + Study" /> <label>1 Bedroom + Study</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="1 Bedroom + Den" /> <label>1 Bedroom + Den</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="2 Bedroom" /> <label>2 Bedroom</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="2 Bedroom + Study" /> <label>2 Bedroom + Study</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="2 Bedroom + Den" /> <label>2 Bedroom + Den</label></div>
+            <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="3 Bedroom" /> <label>3 Bedroom</label>
+            </div>
+             <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="3 Bedroom + Study" /> <label>3 Bedroom + Study</label>
+            </div>
+             <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="3 Bedroom + Den" /> <label>3 Bedroom + Den</label>
+            </div>
+             <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="4 Bedroom" /> <label>4 Bedroom</label>
+            </div>
+             <div class="col-md-3">
+            <input type="checkbox" name="condotype[]" value="Penthouse" /> <label>Penthouse</label>
+            </div>
+                	    
+              </div>
+               
+              
+            
+            	<div class="mtop  clearfix row">
+                 <h4>Floor Range</h4>
+                <!-- <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="Yes" /> <label>Yes</label>
+                </div>
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="No" /> <label>No</label>
+                </div> -->
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="Any Floor" /> <label>Any Floor</label>
+                </div>
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="Low Floor" /> <label>Low Floor</label>
+                </div>
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="Mid Floor" /> <label>Mid Floor</label>
+                </div>
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="High Floor" /> <label>High Floor</label>
+                </div>
+                 <div class="col-md-3">
+                <input type="checkbox" name="floortype[]" value="Penthouse" /> <label>Penthouse</label>
+                </div>
+                	    
+              </div>
+                    
+            <div class=" mtop">
+                <textarea name="comments" id="comments" class="form-control" rows="5" placeholder="Comments"></textarea>
+              </div>
+            
+             <div class="mtop"><input type="checkbox" name="casl" id="casl" value="Yes" required /> &nbsp; By entering your info above you will receive emails from us about properties. Consent can be withdrawn at any time by clicking the "unsubscribe" link contained in the email. </div>
+            </div>
+            <div class="form-group mtop">
+                <div class="">
+                     <input type="submit" name="register" value="Register" class="btn btn-primary" />
+                </div>
+            </div>
+  </form>
+  		
+          </div><!--end of form2Box-->
+
+         </div>
+                  </div><!-- panel-body -->
+        
+        
+      </div><!-- panel -->
+      
+</div><!--end of <div class="container mtop">-->
+
+    <!-- Load Javascript
+  	================================================== -->
+    <script src="bootstrap/js/jquery-1.11.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
+<script>
+function changeFieldStatus(val){
+	val =val.options[val.selectedIndex].value;
+		if(val=='Yes'){
+			// required 
+			$("#brokerage").attr("required","required");
+		}else{
+			$("#brokerage").removeAttr("required");
+			
+		}
+	}
+</script>
+</body>
+</html>

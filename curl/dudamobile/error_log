@@ -1,0 +1,35 @@
+[01-Sep-2015 05:29:05 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 174
+[01-Sep-2015 05:29:05 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 175
+[01-Sep-2015 05:29:05 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 179
+[01-Sep-2015 05:29:05 America/Chicago] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 180
+[01-Sep-2015 05:29:05 America/Chicago] PHP Warning:  curl_getinfo() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 181
+[01-Sep-2015 08:24:38 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 159
+[01-Sep-2015 08:24:38 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 160
+[01-Sep-2015 08:24:38 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 164
+[01-Sep-2015 08:24:38 America/Chicago] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 165
+[01-Sep-2015 08:24:38 America/Chicago] PHP Warning:  curl_getinfo() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 166
+[02-Sep-2015 00:33:18 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 194
+[02-Sep-2015 00:33:18 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 195
+[02-Sep-2015 00:33:18 America/Chicago] PHP Warning:  curl_setopt() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 199
+[02-Sep-2015 00:33:18 America/Chicago] PHP Warning:  curl_exec() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 200
+[02-Sep-2015 00:33:18 America/Chicago] PHP Warning:  curl_getinfo() expects parameter 1 to be resource, null given in /home3/karl/public_html/1Mobil-e.com/api/function.php on line 201
+[08-Oct-2015 05:01:06 America/Chicago] PHP Warning:  Illegal string offset 'error_code' in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 84
+[08-Oct-2015 05:02:05 America/Chicago] PHP Warning:  Illegal string offset 'error_code' in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 84
+[08-Oct-2015 05:03:32 America/Chicago] PHP Fatal error:  Cannot use object of type stdClass as array in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 85
+[08-Oct-2015 05:15:42 America/Chicago] PHP Fatal error:  Call to undefined function redirect_JS() in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 6
+[08-Oct-2015 05:22:31 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/karl/public_html/1Mobil-e.com/api/function.php:310) in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 88
+[08-Oct-2015 05:22:43 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/karl/public_html/1Mobil-e.com/api/function.php:310) in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 141
+[08-Oct-2015 05:30:47 America/Chicago] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home3/karl/public_html/1Mobil-e.com/api/index.php:87) in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 88
+[29-Feb-2016 01:49:03 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:49:24 America/Chicago] PHP Notice:  Undefined variable: con_id in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 103
+[29-Feb-2016 01:49:24 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:52:01 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:52:08 America/Chicago] PHP Notice:  Undefined variable: con_id in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 103
+[29-Feb-2016 01:52:08 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:52:50 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:52:55 America/Chicago] PHP Notice:  Undefined variable: con_id in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 103
+[29-Feb-2016 01:52:55 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:54:19 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:54:29 America/Chicago] PHP Notice:  Undefined variable: con_id in /home3/karl/public_html/1Mobil-e.com/api/index.php on line 104
+[29-Feb-2016 01:54:29 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request
+[29-Feb-2016 01:56:39 America/Chicago] XML-RPC: xmlrpcmsg::parseResponseHeaders: HTTP error, got response: HTTP/1.1 400 Bad Request

@@ -1,0 +1,27 @@
+// PHP Login Script Thing
+// Developed by Chad Smith
+// Web: http://mktgdept.com/
+// Download: http://mktgdept.com/php-login-script.zip
+// Support: http://posttopic.com/topic/php-login-script
+// Twitter: chadsmith
+// Google Talk: chad@mktgdept.com
+//
+// Copyright (C) 2008 Chad Smith
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Build: 20090107211851
+
+Build 20090106164138 - Initial Release
+Build 20090107211851 - Added action hooks to enable basic plugin capabilities; cookie name can now be set in config
